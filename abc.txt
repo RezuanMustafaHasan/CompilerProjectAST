@@ -1,0 +1,32 @@
+_x = 5;
+_.temp = 12;
+__name = "CompilerLab";
+___ready = true;
+
+x = x + 3;
+temp = temp + x;
+name = "UltimateCompiler";
+ready = false;
+
+show(x);
+show(temp);
+
+when (x < temp && x != 0) {
+	show(temp);
+} otherwise {
+	show(x);
+}
+
+loop (x < 10) {
+	x = x + 1;
+	show(x);
+}
+
+function getValue() {
+	reply x + temp;
+}
+
+show(getValue());
+getValue();
+
+reply x;
