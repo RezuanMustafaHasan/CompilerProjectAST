@@ -28,7 +28,7 @@ extern FILE *yyin;
 %token LPAREN RPAREN LBRACE RBRACE
 %token SEMICOLON COMMA
 
-%type <ptr> program stmt_list statement simple_stmt block
+%type <ptr> program top_list top_item stmt_list statement simple_stmt block
 %type <ptr> declaration_stmt assignment_stmt show_stmt take_stmt if_stmt else_tail
 %type <ptr> loop_stmt function_def return_stmt function_call_stmt break_stmt continue_stmt
 %type <ptr> declaration_core assignment_core loop_init_opt loop_update_opt update_core
@@ -50,7 +50,17 @@ extern FILE *yyin;
 %%
 
 program
-    : stmt_list { root = make_block($1); $$ = root; }
+    : top_list { root = make_block($1); $$ = root; }
+    ;
+
+top_list
+    : top_list top_item { $$ = append_statement($1, $2); }
+    | { $$ = NULL; }
+    ;
+
+top_item
+    : function_def
+    | statement
     ;
 
 stmt_list
@@ -67,7 +77,6 @@ simple_stmt
     | take_stmt
     | if_stmt
     | loop_stmt
-    | function_def
     | function_call_stmt
     | return_stmt
     | break_stmt
@@ -244,6 +253,7 @@ int main(void)
 int yyerror(const char *s)
 {
     FILE *target = outFile ? outFile : stderr;
+    runtime_note_error();
     fprintf(target, "Syntax Error at line %d: %s\n", yylineno, s);
     return 0;
 }

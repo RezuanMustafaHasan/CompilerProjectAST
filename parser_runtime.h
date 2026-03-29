@@ -100,6 +100,7 @@ ArgList *make_arg(ASTNode *expr);
 
 void runtime_init(void);
 void runtime_execute_root(void);
+void runtime_note_error(void);
 int runtime_has_errors(void);
 
 #endif
