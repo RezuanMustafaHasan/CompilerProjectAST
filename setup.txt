@@ -1,1 +1,1 @@
-flex test.l && bison -d parser.y && gcc lex.yy.c parser.tab.c parser_runtime.c -o compiler -lm
+flex lexer.l && bison -d parser.y && gcc lex.yy.c parser.tab.c parser_runtime.c -o compiler -lm
